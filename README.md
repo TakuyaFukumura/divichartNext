@@ -53,6 +53,13 @@ or
 ./mvnw clean spring-boot:run
 ```
 
+### フロントエンド起動方法
+```bash
+cd frontend
+```
+```bash
+npm run dev
+```
 ## ローカル開発環境
 ### DEV用設定を使用する場合
 - `spring.profiles.active=dev`を指定することで、DEV用の設定ファイル`application-dev.properties`の値が使用される
