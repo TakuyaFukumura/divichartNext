@@ -35,6 +35,7 @@ public class WebSecurityConfig {
                                 mvcMatcherBuilder.pattern("/"),
                                 mvcMatcherBuilder.pattern("/login"),
                                 mvcMatcherBuilder.pattern("/css/**"),
+                                mvcMatcherBuilder.pattern("/api/**"),
                                 mvcMatcherBuilder.pattern("/createUserAccount/**"),
                                 mvcMatcherBuilder.pattern("/lp")
                         ).permitAll()
@@ -61,7 +62,8 @@ public class WebSecurityConfig {
         // h2-consoleを表示するためにCSRF対策外へ指定
         http.csrf(csrf ->
                 csrf.ignoringRequestMatchers(
-                        AntPathRequestMatcher.antMatcher("/h2-console/**")
+                        AntPathRequestMatcher.antMatcher("/h2-console/**"),
+                        AntPathRequestMatcher.antMatcher("/api/**") // 追加: /api/loginのCSRF対策を無効にする
                 )
         );
 
