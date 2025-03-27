@@ -4,7 +4,6 @@ import { useEffect, useState } from "react";
 import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend } from "chart.js";
 import { Chart } from "react-chartjs-2";
 import "chart.js/auto";
-import Header from "../components/Header";
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
@@ -39,7 +38,6 @@ export default function YearlyDividendChart() {
 
     return (
         <div className="container mx-auto p-4">
-            <Header />
             <h1 className="text-2xl font-bold mb-4">年別配当グラフ</h1>
             <div className="chart-container w-full h-96">
                 <Chart type="bar" data={chartData} options={{
