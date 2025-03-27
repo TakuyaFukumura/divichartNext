@@ -35,19 +35,20 @@ public class YearlyDividendController {
      */
     @GetMapping
     public String index(Model model, @AuthenticationPrincipal UserDetails user) {
-        log.debug("年別配当グラフ表示");
-
-        List<Integer> pastYears = service.getLastNYears(NUM_OF_YEARS);
-        String labels = service.createYearLabels(pastYears);
-        List<BigDecimal> yearlyDividendData = service.getYearlyDividendData(pastYears, user.getUsername());
-        String chartData = service.createChartData(yearlyDividendData);
-
-        YearlyDividendDto yearlyDividendDto = new YearlyDividendDto(
-                labels,
-                chartData
-        );
-        model.addAttribute("yearlyDividendDto", yearlyDividendDto);
-
-        return "yearlyDividend";
+//        log.debug("年別配当グラフ表示");
+//
+//        List<Integer> pastYears = service.getLastNYears(NUM_OF_YEARS);
+//        String labels = service.createYearLabels(pastYears);
+//        List<BigDecimal> yearlyDividendData = service.getYearlyDividendData(pastYears, user.getUsername());
+//        String chartData = service.createChartData(yearlyDividendData);
+//
+//        YearlyDividendDto yearlyDividendDto = new YearlyDividendDto(
+//                labels,
+//                chartData
+//        );
+//        model.addAttribute("yearlyDividendDto", yearlyDividendDto);
+//
+//        return "yearlyDividend";
+        return null;
     }
 }

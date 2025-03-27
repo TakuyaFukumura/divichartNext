@@ -40,6 +40,6 @@ public class YearlyDividendApiController {
         List<BigDecimal> yearlyDividendData = service.getYearlyDividendData(pastYears, "admin");//user.getUsername());
         String chartData = service.createChartData(yearlyDividendData);
 
-        return new YearlyDividendDto(labels, chartData);
+        return new YearlyDividendDto(pastYears, yearlyDividendData);
     }
 }
