@@ -1,17 +1,26 @@
+"use client";
+
+import { useState } from "react";
 import Link from "next/link";
 
 export default function Header() {
+    const [isOpen, setIsOpen] = useState(false);
+
+    const toggleMenu = () => {
+        setIsOpen(!isOpen);
+    };
+
     return (
         <nav className="bg-gray-900 p-4">
             <div className="container mx-auto flex items-center justify-between">
-                <button className="block lg:hidden text-white">
+                <button className="block lg:hidden text-white" onClick={toggleMenu}>
                     ☰
                 </button>
-                <div className="hidden lg:flex items-center">
+                <div className={`${isOpen ? "block" : "hidden"} lg:flex items-center`}>
                     <Link href="/" className="text-white text-xl font-bold mr-6">
                         divichart
                     </Link>
-                    <ul className="flex space-x-4">
+                    <ul className="flex flex-col lg:flex-row space-y-2 lg:space-y-0 lg:space-x-4">
                         <li><Link href="/dividendPortfolio" className="text-white">配当ポートフォリオ</Link></li>
                         <li><Link href="/yearlyDividend" className="text-white">年別配当グラフ</Link></li>
                         <li><Link href="/monthlyDividend" className="text-white">月別配当グラフ</Link></li>
