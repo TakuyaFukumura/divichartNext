@@ -11,19 +11,17 @@ export default function YearlyDividendChart() {
     const [chartData, setChartData] = useState(null);
 
     useEffect(() => {
-        fetch("/api/yearlyDividend")
-            .then((res) => res.text())  // まずテキストとしてレスポンスを取得
-            .then((text) => {
-                console.log(text);  // レスポンスの内容をログに出力
-                return JSON.parse(text);  // JSONにパース
-            })
-            .then((data) => {
+        fetch("http://localhost:8080/api/yearlyDividend", {
+            credentials: "include", // Cookieを送信（Spring Securityで認証する場合）
+        })
+            .then((res) => res.json())
+            .then((json) => {
                 setChartData({
-                    labels: data.labels,
+                    labels: json.labels.split(","), // サーバー側が文字列を返すならパース
                     datasets: [
                         {
                             label: "配当受取額",
-                            data: data.data,
+                            data: JSON.parse(json.chartData), // 必要に応じてパース
                             backgroundColor: "rgba(0, 0, 255, 0.5)",
                         },
                     ],
