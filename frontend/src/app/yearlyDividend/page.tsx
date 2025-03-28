@@ -25,7 +25,7 @@ export default function YearlyDividendChart() {
                 });
             })
             .catch((error) => {
-                console.error("Error parsing JSON:", error);
+                console.error("データ取得エラー:", error);
             });
     }, []);
 
