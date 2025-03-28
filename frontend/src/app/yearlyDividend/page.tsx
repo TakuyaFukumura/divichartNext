@@ -6,6 +6,15 @@ import { Chart } from "react-chartjs-2";
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
+interface ChartData {
+    labels: string[];
+    datasets: {
+        label: string;
+        data: number[];
+        backgroundColor: string;
+    }[];
+}
+
 export default function YearlyDividendChart() {
     const [chartData, setChartData] = useState({ labels: [], datasets: [] });
 
