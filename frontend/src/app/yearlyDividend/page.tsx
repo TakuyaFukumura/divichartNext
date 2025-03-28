@@ -45,9 +45,7 @@ export default function YearlyDividendChart() {
                     scales: {
                         y: {
                             ticks: {
-                                callback: function(value) {
-                                    return value + "ドル";
-                                },
+                                callback: (value) => value + "ドル",
                             },
                         },
                     },
