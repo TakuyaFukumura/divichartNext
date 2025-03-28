@@ -17,6 +17,7 @@ interface ChartData {
 
 export default function YearlyDividendChart() {
     const [chartData, setChartData] = useState<ChartData | null>(null);
+    const [error, setError] = useState<string | null>(null);
 
     useEffect(() => {
         fetch("http://localhost:8080/api/yearlyDividend")
@@ -35,9 +36,11 @@ export default function YearlyDividendChart() {
             })
             .catch((error) => {
                 console.error("データ取得エラー:", error);
+                setError("データの取得に失敗しました");
             });
     }, []);
 
+    if (error) return <p className="text-red-500">{error}</p>;
     if (!chartData) return <p>Loading...</p>;
 
     return (
