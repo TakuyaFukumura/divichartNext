@@ -7,7 +7,7 @@ import { Chart } from "react-chartjs-2";
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
 export default function YearlyDividendChart() {
-    const [chartData, setChartData] = useState(null);
+    const [chartData, setChartData] = useState({ labels: [], datasets: [] });
 
     useEffect(() => {
         fetch("http://localhost:8080/api/yearlyDividend")
