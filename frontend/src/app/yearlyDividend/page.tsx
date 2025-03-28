@@ -15,11 +15,11 @@ useEffect(() => {
         .then((res) => res.json())
         .then((json) => {
             setChartData({
-                labels: json.labels, // そのまま使用
+                labels: json.labels,
                 datasets: [
                     {
                         label: "配当受取額",
-                        data: json.chartData, // そのまま使用
+                        data: json.chartData,
                         backgroundColor: "rgba(0, 0, 255, 0.5)",
                     },
                 ],
