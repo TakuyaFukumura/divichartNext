@@ -35,22 +35,26 @@ export default function YearlyDividendChart() {
         <div className="container mx-auto p-4">
             <h1 className="text-2xl font-bold mb-4">年別配当グラフ</h1>
             <div className="chart-container w-full h-96">
-                <Chart type="bar" data={chartData} options={{
-                    plugins: {
-                        title: {
-                            display: true,
-                            text: "年別配当受取額",
-                        },
-                    },
-                    scales: {
-                        y: {
-                            ticks: {
-                                callback: (value) => value + "ドル",
+                <Chart
+                    type="bar"
+                    data={chartData}
+                    options={{
+                        plugins: {
+                            title: {
+                                display: true,
+                                text: "年別配当受取額",
                             },
                         },
-                    },
-                    maintainAspectRatio: false,
-                }} />
+                        scales: {
+                            y: {
+                                ticks: {
+                                    callback: (value) => value + "ドル",
+                                },
+                            },
+                        },
+                        maintainAspectRatio: false,
+                    }}
+                />
             </div>
         </div>
     );
