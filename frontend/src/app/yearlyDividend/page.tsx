@@ -10,25 +10,25 @@ ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend)
 export default function YearlyDividendChart() {
     const [chartData, setChartData] = useState(null);
 
-useEffect(() => {
-    fetch("http://localhost:8080/api/yearlyDividend")
-        .then((res) => res.json())
-        .then((json) => {
-            setChartData({
-                labels: json.labels,
-                datasets: [
-                    {
-                        label: "配当受取額",
-                        data: json.chartData,
-                        backgroundColor: "rgba(0, 0, 255, 0.5)",
-                    },
-                ],
+    useEffect(() => {
+        fetch("http://localhost:8080/api/yearlyDividend")
+            .then((res) => res.json())
+            .then((json) => {
+                setChartData({
+                    labels: json.labels,
+                    datasets: [
+                        {
+                            label: "配当受取額",
+                            data: json.chartData,
+                            backgroundColor: "rgba(0, 0, 255, 0.5)",
+                        },
+                    ],
+                });
+            })
+            .catch((error) => {
+                console.error("Error parsing JSON:", error);
             });
-        })
-        .catch((error) => {
-            console.error("Error parsing JSON:", error);
-        });
-}, []);
+    }, []);
 
     if (!chartData) return <p>Loading...</p>;
 
