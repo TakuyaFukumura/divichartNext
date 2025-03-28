@@ -16,7 +16,7 @@ interface ChartData {
 }
 
 export default function YearlyDividendChart() {
-    const [chartData, setChartData] = useState({ labels: [], datasets: [] });
+    const [chartData, setChartData] = useState<ChartData | null>(null);
 
     useEffect(() => {
         fetch("http://localhost:8080/api/yearlyDividend")
