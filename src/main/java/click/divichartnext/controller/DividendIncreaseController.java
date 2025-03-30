@@ -16,7 +16,7 @@ import java.math.BigDecimal;
 import java.util.List;
 
 /**
- * 配当増加率グラフ用コントローラ
+ * 配当増加額グラフ用コントローラ
  */
 @Slf4j
 @Controller
