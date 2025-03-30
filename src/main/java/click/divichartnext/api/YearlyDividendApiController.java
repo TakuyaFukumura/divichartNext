@@ -36,9 +36,7 @@ public class YearlyDividendApiController {
         log.debug("年別配当データを取得");
 
         List<Integer> pastYears = service.getLastNYears(NUM_OF_YEARS);
-        String labels = service.createYearLabels(pastYears);
         List<BigDecimal> yearlyDividendData = service.getYearlyDividendData(pastYears, "admin");//user.getUsername());
-        String chartData = service.createChartData(yearlyDividendData);
 
         return new YearlyDividendDto(pastYears, yearlyDividendData);
     }
