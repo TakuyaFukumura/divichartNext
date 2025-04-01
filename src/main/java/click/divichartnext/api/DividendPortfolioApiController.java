@@ -45,7 +45,7 @@ public class DividendPortfolioApiController {
 
         BigDecimal dividendSum = service.getDividendSum(targetYear, "admin");//user.getUsername());
 
-        List<String> chartData = service.getChartData(dividendSummaryBeanList);
+        List<BigDecimal> chartData = service.getChartData(dividendSummaryBeanList);
         String dividendPortfolioLabels = service.getDividendPortfolioLabels(dividendSum, dividendSummaryBeanList);
 
         return new DividendPortfolioDto(

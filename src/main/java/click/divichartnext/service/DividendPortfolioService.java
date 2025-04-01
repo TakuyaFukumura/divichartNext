@@ -65,9 +65,9 @@ public class DividendPortfolioService extends DividendService {
      * @param dividendSummaryBeans 配当サマリービーンのリスト
      * @return チャートデータ
      */
-    public List<String> getChartData(List<DividendSummaryBean> dividendSummaryBeans) {
+    public List<BigDecimal> getChartData(List<DividendSummaryBean> dividendSummaryBeans) {
         return dividendSummaryBeans.stream()
-                .map(bean -> bean.getAmountReceived().toString())
+                .map(DividendSummaryBean::getAmountReceived)
                 .toList();
     }
 

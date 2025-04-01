@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.List;
 
 /**
@@ -15,5 +16,5 @@ public class DividendPortfolioDto implements Serializable {
     private List<Integer> recentYears;
     private int targetYear;
     private String labels;
-    private List<String> chartData;
+    private List<BigDecimal> chartData;
 }
