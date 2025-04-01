@@ -71,15 +71,14 @@ public class DividendPortfolioService extends DividendService {
                 .toList();
     }
 
-    public String getDividendPortfolioLabels(BigDecimal dividendSum, List<DividendSummaryBean> dividendSummaryBeans) {
-        List<String> labelParts = dividendSummaryBeans.stream()
+    public List<String> getDividendPortfolioLabels(BigDecimal dividendSum, List<DividendSummaryBean> dividendSummaryBeans) {
+        return dividendSummaryBeans.stream()
                 .map(bean -> createLabelPart(
                         bean.getTickerSymbol(),
                         bean.getAmountReceived(),
                         dividendSum
                 ))
                 .toList();
-        return labelParts.isEmpty() ? "\"\"" : "\"" + String.join("\",\"", labelParts) + "\"";
     }
 
     /**

@@ -46,7 +46,7 @@ public class DividendPortfolioApiController {
         BigDecimal dividendSum = service.getDividendSum(targetYear, "admin");//user.getUsername());
 
         List<BigDecimal> chartData = service.getChartData(dividendSummaryBeanList);
-        String dividendPortfolioLabels = service.getDividendPortfolioLabels(dividendSum, dividendSummaryBeanList);
+        List<String> dividendPortfolioLabels = service.getDividendPortfolioLabels(dividendSum, dividendSummaryBeanList);
 
         return new DividendPortfolioDto(
                 pastYears.stream().sorted(Comparator.reverseOrder()).toList(), // 逆順にする

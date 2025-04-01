@@ -15,6 +15,6 @@ import java.util.List;
 public class DividendPortfolioDto implements Serializable {
     private List<Integer> recentYears;
     private int targetYear;
-    private String labels;
+    private List<String> labels;
     private List<BigDecimal> chartData;
 }
