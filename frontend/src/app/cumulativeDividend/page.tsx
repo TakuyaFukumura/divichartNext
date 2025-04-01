@@ -1,10 +1,10 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Chart as ChartJS, CategoryScale, LinearScale, LineElement, PointElement, Title, Tooltip, Legend } from "chart.js";
+import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, Title, Tooltip, Legend, Filler } from "chart.js";
 import { Chart } from "react-chartjs-2";
 
-ChartJS.register(CategoryScale, LinearScale, LineElement, PointElement, Title, Tooltip, Legend);
+ChartJS.register(CategoryScale, LinearScale, PointElement, Title, Tooltip, Legend, Filler);
 
 interface ChartData {
     labels: string[];
@@ -12,10 +12,8 @@ interface ChartData {
         label: string;
         data: number[];
         borderColor: string;
-        fill: {
-            target: string;
-            above: string;
-        };
+        backgroundColor: string;
+        fill: boolean;
     }[];
 }
 
@@ -34,10 +32,8 @@ export default function CumulativeDividendChart() {
                             label: "累計配当受取額(ドル）",
                             data: json.chartData,
                             borderColor: "rgba(167, 87, 168, 0.5)",
-                            fill: {
-                                target: "origin",
-                                above: "rgba(167, 87, 168, 0.5)",
-                            },
+                            backgroundColor: "rgba(167, 87, 168, 0.2)",
+                            fill: true,
                         },
                     ],
                 });
