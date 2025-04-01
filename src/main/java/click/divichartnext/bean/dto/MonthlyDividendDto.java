@@ -5,6 +5,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.List;
 
 /**
@@ -14,11 +15,11 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 public class MonthlyDividendDto implements Serializable {
-    private List<String> recentYears;
-    private String targetYear;
-    private String chartData;
+    private List<Integer> recentYears;
+    private int targetYear;
+    private List<BigDecimal> chartData;
 
-    public MonthlyDividendDto(List<String> recentYears, String targetYear, String chartData) {
+    public MonthlyDividendDto(List<Integer> recentYears, int targetYear, List<BigDecimal> chartData) {
         this.recentYears = recentYears;
         this.targetYear = targetYear;
         this.chartData = chartData;
