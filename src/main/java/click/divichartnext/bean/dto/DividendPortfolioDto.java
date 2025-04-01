@@ -15,5 +15,5 @@ public class DividendPortfolioDto implements Serializable {
     private List<Integer> recentYears;
     private int targetYear;
     private String labels;
-    private String chartData;
+    private List<String> chartData;
 }
