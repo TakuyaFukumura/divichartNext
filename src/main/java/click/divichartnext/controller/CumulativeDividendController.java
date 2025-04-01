@@ -36,17 +36,18 @@ public class CumulativeDividendController {
     public String index(Model model, @AuthenticationPrincipal UserDetails user) {
         log.debug("累計配当グラフ表示");
 
-        List<Integer> pastYears = service.getLastNYearsAsc(5);
-        String labels = service.createYearLabels(pastYears);
-
-        List<BigDecimal> cumulativeDividendData = service.getCumulativeDividendData(pastYears, user.getUsername());
-
-        String chartData = service.createChartData(cumulativeDividendData);
-
-        CumulativeDividendDto cumulativeDividendDto = new CumulativeDividendDto(labels, chartData);
-        model.addAttribute("cumulativeDividendDto", cumulativeDividendDto);
-
-        return "cumulativeDividend";
+//        List<Integer> pastYears = service.getLastNYearsAsc(5);
+//        String labels = service.createYearLabels(pastYears);
+//
+//        List<BigDecimal> cumulativeDividendData = service.getCumulativeDividendData(pastYears, user.getUsername());
+//
+//        String chartData = service.createChartData(cumulativeDividendData);
+//
+//        CumulativeDividendDto cumulativeDividendDto = new CumulativeDividendDto(labels, chartData);
+//        model.addAttribute("cumulativeDividendDto", cumulativeDividendDto);
+//
+//        return "cumulativeDividend";
+        return null;
     }
 
 }
