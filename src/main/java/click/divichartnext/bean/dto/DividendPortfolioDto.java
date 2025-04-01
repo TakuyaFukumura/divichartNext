@@ -13,7 +13,7 @@ import java.util.List;
 @AllArgsConstructor
 public class DividendPortfolioDto implements Serializable {
     private List<String> recentYears;
-    private String targetYear;
+    private int targetYear;
     private String labels;
     private String chartData;
 }

@@ -40,26 +40,27 @@ public class DividendPortfolioController {
                         @AuthenticationPrincipal UserDetails user) {
         log.debug("配当ポートフォリオ表示");
 
-        int targetYear = service.getTargetYear(dividendPortfolioForm.getTargetYear());
-        List<Integer> pastYears = service.getLastNYears(5);
-
-        List<DividendSummaryBean> dividendSummaryBeanList = service.getDividendPortfolioData(targetYear, user.getUsername());
-
-        BigDecimal dividendSum = service.getDividendSum(targetYear, user.getUsername());
-
-        String chartData = service.getChartData(dividendSummaryBeanList);
-        String dividendPortfolioLabels = service.getDividendPortfolioLabels(dividendSum, dividendSummaryBeanList);
-
-        DividendPortfolioDto dividendPortfolioDto = new DividendPortfolioDto(
-                pastYears.stream().map(String::valueOf).sorted(Comparator.reverseOrder()).toList(), // 逆順で文字列化
-                String.valueOf(targetYear),
-                dividendPortfolioLabels,
-                chartData
-        );
-
-        model.addAttribute("dividendPortfolioDto", dividendPortfolioDto);
-
-        return "dividendPortfolio";
+//        int targetYear = service.getTargetYear(dividendPortfolioForm.getTargetYear());
+//        List<Integer> pastYears = service.getLastNYears(5);
+//
+//        List<DividendSummaryBean> dividendSummaryBeanList = service.getDividendPortfolioData(targetYear, user.getUsername());
+//
+//        BigDecimal dividendSum = service.getDividendSum(targetYear, user.getUsername());
+//
+//        String chartData = service.getChartData(dividendSummaryBeanList);
+//        String dividendPortfolioLabels = service.getDividendPortfolioLabels(dividendSum, dividendSummaryBeanList);
+//
+//        DividendPortfolioDto dividendPortfolioDto = new DividendPortfolioDto(
+//                pastYears.stream().map(String::valueOf).sorted(Comparator.reverseOrder()).toList(), // 逆順で文字列化
+//                String.valueOf(targetYear),
+//                dividendPortfolioLabels,
+//                chartData
+//        );
+//
+//        model.addAttribute("dividendPortfolioDto", dividendPortfolioDto);
+//
+//        return "dividendPortfolio";
+        return null;
     }
 
 }
