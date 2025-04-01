@@ -49,7 +49,7 @@ public class DividendPortfolioApiController {
         String dividendPortfolioLabels = service.getDividendPortfolioLabels(dividendSum, dividendSummaryBeanList);
 
         return new DividendPortfolioDto(
-                pastYears.stream().map(String::valueOf).sorted(Comparator.reverseOrder()).toList(), // 逆順で文字列化
+                pastYears.stream().sorted(Comparator.reverseOrder()).toList(), // 逆順にする
                 targetYear,
                 dividendPortfolioLabels,
                 chartData
