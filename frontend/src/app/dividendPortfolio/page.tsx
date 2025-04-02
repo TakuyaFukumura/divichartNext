@@ -33,8 +33,8 @@ export default function DividendPortfolio() {
                             label: "USD",
                             data: json.chartData,
                             backgroundColor: [
-                                "#c73327", "#e8c400", "#3C00FF", "#3b95d3", "#BB5179", "#FAFF67", "#58A27C",
-                                "#F41111", "#FFD80F", "#44B009", "#45CAFF", "#332FCC", "#D819FF"
+                                "#FF6384", "#36A2EB", "#FFCE56", "#4BC0C0", "#9966FF", "#FF9F40", "#FFCD56",
+                                "#C9CBCF", "#36A2EB", "#FF6384", "#4BC0C0", "#9966FF", "#FF9F40"
                             ],
                         },
                     ],
