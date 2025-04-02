@@ -59,22 +59,26 @@ public class DividendPortfolioService extends DividendService {
         return new DividendSummaryBean(projection.getTickerSymbol(), projection.getAmountReceived());
     }
 
-    public String getChartData(List<DividendSummaryBean> dividendSummaryBeans) {
-        List<String> amountReceivedData = dividendSummaryBeans.stream()
-                .map(bean -> bean.getAmountReceived().toString())
+    /**
+     * 配当サマリービーンのリストからチャートデータを生成する
+     *
+     * @param dividendSummaryBeans 配当サマリービーンのリスト
+     * @return チャートデータ
+     */
+    public List<BigDecimal> getChartData(List<DividendSummaryBean> dividendSummaryBeans) {
+        return dividendSummaryBeans.stream()
+                .map(DividendSummaryBean::getAmountReceived)
                 .toList();
-        return String.join(",", amountReceivedData);
     }
 
-    public String getDividendPortfolioLabels(BigDecimal dividendSum, List<DividendSummaryBean> dividendSummaryBeans) {
-        List<String> labelParts = dividendSummaryBeans.stream()
+    public List<String> getDividendPortfolioLabels(BigDecimal dividendSum, List<DividendSummaryBean> dividendSummaryBeans) {
+        return dividendSummaryBeans.stream()
                 .map(bean -> createLabelPart(
                         bean.getTickerSymbol(),
                         bean.getAmountReceived(),
                         dividendSum
                 ))
                 .toList();
-        return labelParts.isEmpty() ? "\"\"" : "\"" + String.join("\",\"", labelParts) + "\"";
     }
 
     /**
