@@ -1,16 +1,40 @@
 # divichartNext
-配当金の可視化
 
 ## Overview
 - 配当金を可視化するアプリです
-
+### プロジェクト方針
+- ミッション（使命・存在意義）
+    - インカムゲインを重視する米国株投資家の資産形成モチベーション維持に貢献する
+- ビジョン（将来像・あるべき姿）
+    - 様々な観点からインカムゲインを視覚的に捉えることができる
+- バリュー（価値観・行動指針）
+    - 現状把握や分析に役立つ情報を集計しグラフとして表現する
 ## Requirement
 - OS
-    - Ubuntu 20.04 LTS
+    - Ubuntu 24.04
 - Languages
-    - Java 17
+    - Java
         - Amazon Corretto 17
-
+    - TypeScript
+### 使用技術・ツール
+- バックエンド
+    - フレームワーク
+        - Spring Boot
+    - ビルドツール
+        - Maven
+    - テスティングフレームワーク
+        - JUnit
+- フロントエンド
+    - フレームワーク
+        - Next.js
+    - CSSフレームワーク
+        - Tailwind CSS
+    - グラフ描画ライブラリ
+        - Chart.js
+- DB
+    - H2 Database Engine
+- 静的解析
+    - SonarQube
 ## Usage
 1. アカウントを作成してログイン
 2. 配当履歴一覧画面から配当履歴を登録
@@ -38,6 +62,7 @@
     - 年間累計配当グラフ
     - 配当増加率グラフ
         - 前年比配当増加率を表示
+    - 配当増加額グラフ
     - 配当達成率グラフ
         - 配当目標額に対する達成率を年毎に表示
 
@@ -93,44 +118,4 @@ java -jar ./target/divichart.jar --spring.h2.console.enabled=true
 java -jar ./target/divichart.jar --spring.sql.init.mode=always --spring.sql.init.schema-locations=classpath:./sql/schema.sql
 ```
 
-## 静的解析
-- SonarQubeを使用する
-    - ref. https://docs.sonarsource.com/sonarqube/latest/try-out-sonarqube/
-- 実行例
-```bash
-mvn clean jacoco:prepare-agent verify jacoco:report sonar:sonar -Dsonar.projectKey=divichart -Dsonar.projectName='divichart' -Dsonar.host.url=http://localhost:9000 -Dsonar.token=トークンを書く
-```
-## 依存関係
-- ツリー表示
-```bash
-./mvnw dependency:tree
-```
-- 分析
-```bash
-./mvnw dependency:analyze
-```
 
-## 使用技術・ツール
-- バックエンドフレームワーク
-    - Spring Boot
-- ビルドツール
-    - Maven
-- テスティングフレームワーク
-    - JUnit
-- テンプレートエンジン
-    - Thymeleaf
-- フロントエンドツールキット
-    - Bootstrap
-- グラフ描画ライブラリ
-    - Chart.js
-- DB
-    - H2 Database Engine
-
-## memo
-- ミッション（使命・存在意義）
-    - インカムゲインを重視する米国株投資家の資産形成モチベーション維持に貢献する
-- ビジョン（将来像・あるべき姿）
-    - 様々な観点からインカムゲインを視覚的に捉えることができる
-- バリュー（価値観・行動指針）
-    - 現状把握や分析に役立つ情報を集計する
-    - 集計された情報をグラフで表現する
