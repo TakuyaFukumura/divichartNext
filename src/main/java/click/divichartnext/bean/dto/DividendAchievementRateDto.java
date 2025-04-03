@@ -14,7 +14,7 @@ import java.util.List;
 @AllArgsConstructor
 public class DividendAchievementRateDto implements Serializable {
     private List<Integer> labels;
-    private String chartData;
+    private List<BigDecimal> chartData;
     private String targetDividend;
     private BigDecimal targetDividendYen;
 }

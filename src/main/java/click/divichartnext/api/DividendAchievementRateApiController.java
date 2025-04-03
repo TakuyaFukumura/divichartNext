@@ -41,14 +41,16 @@ public class DividendAchievementRateApiController {
         BigDecimal annualGoalDividendAmount = service.getAnnualGoalDividendAmount(goalDividendAmount);
 
         List<BigDecimal> dividendAchievementRates = service.getDividendAchievementRates(
-                recentYearsAsc, annualGoalDividendAmount, "admin");//user.getUsername());
-        String chartData = service.createChartData(dividendAchievementRates);
+                recentYearsAsc,
+                annualGoalDividendAmount,
+                "admin"
+        );//user.getUsername());
 
         BigDecimal goalDividendAmountYen = service.exchange(goalDividendAmount, "150");
 
         return new DividendAchievementRateDto(
                 pastYears,
-                chartData,
+                dividendAchievementRates,
                 goalDividendAmount,
                 goalDividendAmountYen
         );
