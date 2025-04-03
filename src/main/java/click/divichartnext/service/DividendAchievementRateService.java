@@ -64,9 +64,7 @@ public class DividendAchievementRateService extends DividendService {
      * @param rate               ドル円両替レート
      * @return 円換算の目標配当 例）1,234,567
      */
-    public String exchange(String goalDividendAmount, String rate) {
-        BigDecimal targetDividendYen = new BigDecimal(goalDividendAmount).multiply(new BigDecimal(rate));
-        DecimalFormat decimalFormat = new DecimalFormat("#,###");
-        return decimalFormat.format(targetDividendYen);
+    public BigDecimal exchange(String goalDividendAmount, String rate) {
+        return new BigDecimal(goalDividendAmount).multiply(new BigDecimal(rate));
     }
 }

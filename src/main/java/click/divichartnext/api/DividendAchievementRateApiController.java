@@ -44,12 +44,10 @@ public class DividendAchievementRateApiController {
                 recentYearsAsc, annualGoalDividendAmount, "admin");//user.getUsername());
         String chartData = service.createChartData(dividendAchievementRates);
 
-        String goalDividendAmountYen = service.exchange(goalDividendAmount, "150");
-
-        String labels = service.createYearLabels(pastYears);
+        BigDecimal goalDividendAmountYen = service.exchange(goalDividendAmount, "150");
 
         return new DividendAchievementRateDto(
-                labels,
+                pastYears,
                 chartData,
                 goalDividendAmount,
                 goalDividendAmountYen

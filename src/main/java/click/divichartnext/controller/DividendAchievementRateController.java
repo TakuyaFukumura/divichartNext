@@ -36,28 +36,29 @@ public class DividendAchievementRateController {
     @GetMapping
     public String index(Model model, DividendAchievementRateForm form, @AuthenticationPrincipal UserDetails user) {
         log.debug("配当達成率表示");
-        String goalDividendAmount = (form.getGoalDividendAmount().isEmpty()) ? "135" : form.getGoalDividendAmount();
-
-        List<Integer> pastYears = service.getLastNYears(5);
-
-        List<Integer> recentYearsAsc = service.getLastNYearsAsc(5);
-        BigDecimal annualGoalDividendAmount = service.getAnnualGoalDividendAmount(goalDividendAmount);
-
-        List<BigDecimal> dividendAchievementRates = service.getDividendAchievementRates(recentYearsAsc, annualGoalDividendAmount, user.getUsername());
-        String chartData = service.createChartData(dividendAchievementRates);
-
-        String goalDividendAmountYen = service.exchange(goalDividendAmount, "150");
-
-        String labels = service.createYearLabels(pastYears);
-
-        DividendAchievementRateDto dividendAchievementRateDto = new DividendAchievementRateDto(
-                labels,
-                chartData,
-                goalDividendAmount,
-                goalDividendAmountYen
-        );
-        model.addAttribute("dividendAchievementRateDto", dividendAchievementRateDto);
-
-        return "dividendAchievementRate";
+//        String goalDividendAmount = (form.getGoalDividendAmount().isEmpty()) ? "135" : form.getGoalDividendAmount();
+//
+//        List<Integer> pastYears = service.getLastNYears(5);
+//
+//        List<Integer> recentYearsAsc = service.getLastNYearsAsc(5);
+//        BigDecimal annualGoalDividendAmount = service.getAnnualGoalDividendAmount(goalDividendAmount);
+//
+//        List<BigDecimal> dividendAchievementRates = service.getDividendAchievementRates(recentYearsAsc, annualGoalDividendAmount, user.getUsername());
+//        String chartData = service.createChartData(dividendAchievementRates);
+//
+//        String goalDividendAmountYen = service.exchange(goalDividendAmount, "150");
+//
+//        String labels = service.createYearLabels(pastYears);
+//
+//        DividendAchievementRateDto dividendAchievementRateDto = new DividendAchievementRateDto(
+//                labels,
+//                chartData,
+//                goalDividendAmount,
+//                goalDividendAmountYen
+//        );
+//        model.addAttribute("dividendAchievementRateDto", dividendAchievementRateDto);
+//
+//        return "dividendAchievementRate";
+        return null;
     }
 }
