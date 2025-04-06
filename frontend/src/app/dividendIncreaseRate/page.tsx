@@ -36,7 +36,7 @@ export default function DividendIncreaseChart() {
             {
                 label: "増加率(%)",
                 data: chartData.chartData,
-                backgroundColor: "rgba(255, 0, 0, 0.5)",
+                backgroundColor: "rgba(128, 128, 128, 0.5)",
             },
         ],
     };
