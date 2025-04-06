@@ -37,7 +37,7 @@ public class DividendIncreaseRateApiController {
         List<Integer> pastYears = service.getLastNYears(5);
         String labels = service.createYearLabels(pastYears);
 
-        List<BigDecimal> rateData = service.getDividendIncreaseRateData(pastYears, user.getUsername());
+        List<BigDecimal> rateData = service.getDividendIncreaseRateData(pastYears, "admin");//user.getUsername());
         String chartData = service.createChartData(rateData);
 
         return new DividendIncreaseRateDto(labels, chartData);
