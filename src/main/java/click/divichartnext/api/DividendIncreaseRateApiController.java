@@ -35,11 +35,9 @@ public class DividendIncreaseRateApiController {
         log.debug("配当増加率データを取得");
 
         List<Integer> pastYears = service.getLastNYears(5);
-        String labels = service.createYearLabels(pastYears);
 
         List<BigDecimal> rateData = service.getDividendIncreaseRateData(pastYears, "admin");//user.getUsername());
-        String chartData = service.createChartData(rateData);
 
-        return new DividendIncreaseRateDto(labels, chartData);
+        return new DividendIncreaseRateDto(pastYears, rateData);
     }
 }
