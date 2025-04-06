@@ -4,6 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
+import java.util.List;
 
 /**
  * 配当増加率グラフ画面用DTO
@@ -11,6 +13,6 @@ import java.io.Serializable;
 @Data
 @AllArgsConstructor
 public class DividendIncreaseRateDto implements Serializable {
-    private String labels;
-    private String chartData;
+    private List<Integer> labels;
+    private List<BigDecimal> chartData;
 }
