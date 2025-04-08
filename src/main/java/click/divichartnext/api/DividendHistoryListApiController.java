@@ -38,7 +38,10 @@ public class DividendHistoryListApiController {
     @GetMapping
     public Page<DividendHistory> getDividendHistoryPage(Pageable pageable, @AuthenticationPrincipal UserDetails user) {
         log.debug("配当履歴一覧データ取得");
-        return service.getDividendHistoryPage(user.getUsername(), pageable);
+        return service.getDividendHistoryPage(
+                "admin"//user.getUsername()
+                ,pageable
+        );
     }
 
     /**
@@ -54,7 +57,7 @@ public class DividendHistoryListApiController {
                 insertForm.getTickerSymbol(),
                 insertForm.getAmountReceived(),
                 insertForm.getReceiptDate(),
-                user.getUsername()
+                "admin"//user.getUsername()
         );
     }
 
@@ -67,6 +70,9 @@ public class DividendHistoryListApiController {
     @PostMapping("/bulkInsert")
     public void bulkInsertDividendHistory(@RequestParam("csvFile") MultipartFile csvFile, @AuthenticationPrincipal UserDetails user) {
         log.debug("配当履歴CSV一括登録");
-        service.bulkInsert(csvFile, user.getUsername());
+        service.bulkInsert(
+                csvFile,
+                "admin"//user.getUsername()
+        );
     }
 }
