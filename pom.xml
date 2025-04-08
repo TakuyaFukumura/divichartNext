@@ -11,7 +11,7 @@
 
     <groupId>click.divichartNext</groupId>
     <artifactId>divichartNext</artifactId>
-    <version>0.9.0-alpha</version>
+    <version>0.10.0-alpha</version>
     <name>divichartNext</name>
 
     <properties>
