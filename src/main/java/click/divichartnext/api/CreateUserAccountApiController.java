@@ -5,6 +5,7 @@ import click.divichartnext.service.CreateUserAccountService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @Slf4j
@@ -27,16 +28,16 @@ public class CreateUserAccountApiController {
      * @return 成功メッセージまたはエラーメッセージ
      */
     @PostMapping("/create")
-    public String create(@RequestBody CreateUserAccountForm createUserAccountForm) {
+    public ResponseEntity<String> create(@RequestBody CreateUserAccountForm createUserAccountForm) {
         try {
             service.create(
                     createUserAccountForm.getUsername(),
                     createUserAccountForm.getPassword()
             );
-            return "アカウント作成に成功しました";
+            return ResponseEntity.ok("アカウント作成に成功しました");
         } catch (DataAccessException e) {
             log.error("アカウント作成に失敗しました", e);
-            return "アカウント作成に失敗しました";
+            return ResponseEntity.status(500).body("アカウント作成に失敗しました");
         }
     }
 }
