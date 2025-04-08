@@ -82,23 +82,43 @@ export default function DividendHistoryList() {
 
             {/* ページネーション */}
             <div className="flex justify-center mb-4">
+                {page > 2 && (
+                    <button onClick={() => setPage(0)} className="px-4 py-2 bg-gray-300 rounded">
+                        1
+                    </button>
+                )}
                 {!data.first && (
                     <button onClick={() => setPage(page - 1)} className="px-4 py-2 bg-gray-300 rounded">
                         &lt;
                     </button>
                 )}
-                {Array.from({ length: data.totalPages }, (_, i) => (
-                    <button
-                        key={i}
-                        onClick={() => setPage(i)}
-                        className={`px-4 py-2 ${i === page ? "bg-blue-500 text-white" : "bg-gray-300"} rounded`}
-                    >
-                        {i + 1}
-                    </button>
-                ))}
+                {Array.from(
+                    { length: 5 },
+                    (_, i) => page - 2 + i
+                ).map((pageNo) =>
+                    pageNo >= 0 && pageNo < data.totalPages ? (
+                        <button
+                            key={pageNo}
+                            onClick={() => setPage(pageNo)}
+                            className={`px-4 py-2 ${
+                                pageNo === page ? "bg-blue-500 text-white" : "bg-gray-300"
+                            } rounded`}
+                        >
+                            {pageNo + 1}
+                        </button>
+                    ) : null
+                )}
                 {!data.last && (
                     <button onClick={() => setPage(page + 1)} className="px-4 py-2 bg-gray-300 rounded">
                         &gt;
+                    </button>
+                )}
+                {data.totalPages > page + 3 && (
+                    <button
+                        onClick={() => setPage(data.totalPages - 1)}
+                        className="px-4 py-2 bg-gray-300 rounded"
+                    >
+                        {data.totalPages}
                     </button>
                 )}
             </div>
