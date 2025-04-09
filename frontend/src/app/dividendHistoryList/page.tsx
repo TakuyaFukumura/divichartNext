@@ -164,7 +164,7 @@ export default function DividendHistoryList() {
             {/* 個別登録 */}
             <form onSubmit={handleFormSubmit} className="mt-4">
                 <div className="mb-2">
-                    <label className="block">ティッカー</label>
+                    <label className="block">ティッカーシンボル</label>
                     <input
                         type="text"
                         value={form.tickerSymbol}
