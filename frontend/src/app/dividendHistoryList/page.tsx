@@ -136,7 +136,14 @@ export default function DividendHistoryList() {
                 <tbody>
                     {data.content.map((item) => (
                         <tr key={item.id}>
-                            <td className="border border-gray-400 px-4 py-2">{item.id}</td>
+                            <td className="border border-gray-400 px-4 py-2">
+                                <a
+                                    href={`/dividendHistoryEdit?id=${item.id}`}
+                                    className="text-blue-500 underline"
+                                >
+                                    {item.id}
+                                </a>
+                            </td>
                             <td className="border border-gray-400 px-4 py-2">{item.tickerSymbol}</td>
                             <td className="border border-gray-400 px-4 py-2">{item.amountReceived}</td>
                             <td className="border border-gray-400 px-4 py-2">{item.receiptDate}</td>
