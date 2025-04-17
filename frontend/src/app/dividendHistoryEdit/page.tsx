@@ -13,6 +13,7 @@ export default function DividendHistoryEditPage() {
     const [form, setForm] = useState<DividendHistoryEditForm | null>(null);
     const [error, setError] = useState<string | null>(null);
     const [loading, setLoading] = useState(true);
+    const [successMessage, setSuccessMessage] = useState<string | null>(null); // 成功メッセージ用の状態を追加
 
     useEffect(() => {
         const id = new URLSearchParams(window.location.search).get("id");
@@ -42,10 +43,10 @@ export default function DividendHistoryEditPage() {
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(form),
             });
-            alert("更新成功");
+            setSuccessMessage("更新が成功しました");
         } catch (err) {
             console.error("更新エラー:", err);
-            alert("更新に失敗しました");
+            setError("更新に失敗しました");
         }
     };
 
@@ -55,6 +56,8 @@ export default function DividendHistoryEditPage() {
     return (
         <div className="container mx-auto p-4">
             <h1 className="text-2xl font-bold mb-4">配当履歴編集画面</h1>
+            {successMessage && <p className="text-green-500 mb-4">{successMessage}</p>}
+            {error && <p className="text-red-500 mb-4">{error}</p>}
             <form onSubmit={handleSubmit} className="border p-4">
                 <div className="mb-3">
                     <label htmlFor="id" className="block font-bold mb-1">ID</label>
