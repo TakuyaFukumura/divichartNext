@@ -1,7 +1,5 @@
 "use client";
 
-// Ensure axios is installed: Run `npm install axios` in the project root.
-
 import React, { useState } from "react";
 import axios from "axios";
 
@@ -9,9 +7,12 @@ const Login = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const [successMessage, setSuccessMessage] = useState(""); // 成功メッセージ用の状態を追加
 
   const handleLogin = async (e) => {
     e.preventDefault();
+    setError(""); // エラーメッセージをリセット
+    setSuccessMessage(""); // 成功メッセージをリセット
     try {
       const response = await axios.post(
           "http://localhost:8080/api/auth/login",
@@ -19,7 +20,7 @@ const Login = () => {
       );
       const token = response.data.token;
       localStorage.setItem("jwtToken", token); // トークンをローカルストレージに保存
-      alert("ログイン成功！");
+      setSuccessMessage("ログイン成功！"); // 成功メッセージを設定
     } catch (err) {
       if (err.response) {
         // サーバーからのエラーレスポンスがある場合
@@ -57,6 +58,7 @@ const Login = () => {
           />
         </div>
         {error && <p style={{ color: "red" }}>{error}</p>}
+        {successMessage && <p style={{ color: "green" }}>{successMessage}</p>} {/* 成功メッセージを表示 */}
         <button type="submit">ログイン</button>
       </form>
     </div>
@@ -64,4 +66,3 @@ const Login = () => {
 };
 
 export default Login;
-
