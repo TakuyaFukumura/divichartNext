@@ -20,7 +20,12 @@ export default function YearlyDividendChart() {
     const [error, setError] = useState<string | null>(null);
 
     useEffect(() => {
-        fetch("http://localhost:8080/api/yearlyDividend")
+        fetch("http://localhost:8080/api/yearlyDividend", {
+                method: "GET",
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            })
             .then((res) => res.json())
             .then((json) => {
                 setChartData({
