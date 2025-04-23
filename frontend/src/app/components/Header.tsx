@@ -10,6 +10,11 @@ export default function Header() {
         setIsOpen(!isOpen);
     };
 
+    const handleLogout = () => {
+        localStorage.removeItem("jwtToken"); // トークンを削除
+        window.location.reload(); // ページをリロード
+    };
+
     return (
         <nav className="bg-gray-900 p-4">
             <div className="container mx-auto flex items-center justify-between">
@@ -31,6 +36,12 @@ export default function Header() {
                         <li><Link href="/dividendAchievementRate" className="text-white">配当達成率グラフ</Link></li>
                         <li><Link href="/dividendHistoryList" className="text-white">配当履歴一覧</Link></li>
                     </ul>
+                    <button 
+                        onClick={handleLogout} 
+                        className="text-white bg-red-500 px-4 py-2 rounded ml-4"
+                    >
+                        ログアウト
+                    </button>
                 </div>
             </div>
         </nav>
