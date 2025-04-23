@@ -20,6 +20,12 @@ export default function YearlyDividendChart() {
     const [error, setError] = useState<string | null>(null);
 
     useEffect(() => {
+        const token = localStorage.getItem("jwtToken"); // トークンをローカルストレージから取得
+        if (!token) {
+            setError("認証トークンが見つかりません。ログインしてください。");
+            return;
+        }
+
         fetch("http://localhost:8080/api/yearlyDividend", {
                 method: "GET",
                 headers: {
