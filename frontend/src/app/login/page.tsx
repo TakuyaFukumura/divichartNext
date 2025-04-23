@@ -13,7 +13,10 @@ const Login = () => {
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post("/api/auth/login", { username, password });
+      const response = await axios.post(
+          "http://localhost:8080/api/auth/login",
+          { username, password }
+      );
       const token = response.data.token;
       localStorage.setItem("jwtToken", token); // トークンをローカルストレージに保存
       alert("ログイン成功！");
