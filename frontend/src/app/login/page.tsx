@@ -21,7 +21,16 @@ const Login = () => {
       localStorage.setItem("jwtToken", token); // トークンをローカルストレージに保存
       alert("ログイン成功！");
     } catch (err) {
-      setError("ログインに失敗しました。ユーザー名またはパスワードが間違っています。");
+      if (err.response) {
+        // サーバーからのエラーレスポンスがある場合
+        setError(`エラー: ${err.response.data}`);
+      } else if (err.request) {
+        // リクエストが送信されたが応答がない場合
+        setError("サーバーから応答がありません。");
+      } else {
+        // その他のエラー
+        setError("ログイン処理中にエラーが発生しました。");
+      }
     }
   };
 
