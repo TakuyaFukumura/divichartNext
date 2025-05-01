@@ -16,7 +16,17 @@ export default function DividendIncreaseChart() {
     const [error, setError] = useState<string | null>(null);
 
     useEffect(() => {
-        fetch("http://localhost:8080/api/dividendIncreaseRate")
+        const token = localStorage.getItem("jwtToken"); // トークンをローカルストレージから取得
+        if (!token) {
+            setError("認証トークンが見つかりません。ログインしてください。");
+            return;
+        }
+        fetch("http://localhost:8080/api/dividendIncreaseRate", {
+              method: "GET",
+              headers: {
+                  Authorization: `Bearer ${token}`,
+              },
+          })
             .then((res) => res.json())
             .then((json: DividendIncreaseRateDto) => {
                 setChartData(json);

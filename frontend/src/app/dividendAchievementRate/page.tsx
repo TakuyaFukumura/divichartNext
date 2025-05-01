@@ -15,11 +15,22 @@ interface DividendAchievementRateDto {
 
 export default function DividendAchievementRate() {
     const [data, setData] = useState<DividendAchievementRateDto | null>(null);
+    const [error, setError] = useState<string | null>(null);
     const [targetDividend, setTargetDividend] = useState<number>(135);
     const chartRef = useRef<any>(null);
 
     useEffect(() => {
-        fetch(`http://localhost:8080/api/dividendAchievementRate?goalDividendAmount=${targetDividend}`)
+        const token = localStorage.getItem("jwtToken"); // トークンをローカルストレージから取得
+        if (!token) {
+            setError("認証トークンが見つかりません。ログインしてください。");
+            return;
+        }
+        fetch(`http://localhost:8080/api/dividendAchievementRate?goalDividendAmount=${targetDividend}`, {
+              method: "GET",
+              headers: {
+                  Authorization: `Bearer ${token}`,
+              },
+          })
             .then((res) => res.json())
             .then((json) => setData(json))
             .catch((error) => console.error("データ取得エラー:", error));
@@ -29,6 +40,7 @@ export default function DividendAchievementRate() {
         setTargetDividend(Number(event.target.value));
     };
 
+    if (error) return <p className="text-red-500">{error}</p>;
     if (!data) return <p>Loading...</p>;
 
     const chartData = {

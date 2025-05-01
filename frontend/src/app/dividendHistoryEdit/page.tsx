@@ -16,6 +16,11 @@ export default function DividendHistoryEditPage() {
     const [successMessage, setSuccessMessage] = useState<string | null>(null); // 成功メッセージ用の状態を追加
 
     useEffect(() => {
+        const token = localStorage.getItem("jwtToken"); // トークンをローカルストレージから取得
+        if (!token) {
+            setError("認証トークンが見つかりません。ログインしてください。");
+            return;
+        }
         const id = new URLSearchParams(window.location.search).get("id");
         if (!id) {
             setError("IDが指定されていません");
@@ -23,7 +28,12 @@ export default function DividendHistoryEditPage() {
             return;
         }
 
-        fetch(`http://localhost:8080/api/dividendHistoryEdit/${id}`)
+        fetch(`http://localhost:8080/api/dividendHistoryEdit/${id}`, {
+               method: "GET",
+               headers: {
+                   Authorization: `Bearer ${token}`,
+               },
+           })
             .then((res) => res.json())
             .then(setForm)
             .catch((err) => {

@@ -23,7 +23,17 @@ export default function CumulativeDividendChart() {
     const chartRef = useRef<any>(null);
 
     useEffect(() => {
-        fetch("http://localhost:8080/api/cumulativeDividend")
+        const token = localStorage.getItem("jwtToken"); // トークンをローカルストレージから取得
+        if (!token) {
+            setError("認証トークンが見つかりません。ログインしてください。");
+            return;
+        }
+        fetch("http://localhost:8080/api/cumulativeDividend", {
+            method: "GET",
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        })
             .then((res) => res.json())
             .then((json) => {
                 setChartData({
