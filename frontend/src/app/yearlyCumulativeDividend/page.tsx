@@ -26,7 +26,17 @@ export default function YearlyCumulativeDividendPage() {
     const [years, setYears] = useState<number[]>([]);
 
     useEffect(() => {
-        fetch(`http://localhost:8080/api/yearlyCumulativeDividend?targetYear=${targetYear}`)
+        const token = localStorage.getItem("jwtToken"); // トークンをローカルストレージから取得
+        if (!token) {
+            setError("認証トークンが見つかりません。ログインしてください。");
+            return;
+        }
+        fetch(`http://localhost:8080/api/yearlyCumulativeDividend?targetYear=${targetYear}`, {
+               method: "GET",
+               headers: {
+                   Authorization: `Bearer ${token}`,
+               },
+           })
             .then((res) => res.json())
             .then((json) => {
                 setChartData({
