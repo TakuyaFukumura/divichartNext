@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend } from "chart.js";
 import { Chart } from "react-chartjs-2";
+import { getAuthHeaders } from "@/utils/auth";
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
@@ -20,17 +21,15 @@ export default function YearlyDividendChart() {
     const [error, setError] = useState<string | null>(null);
 
     useEffect(() => {
-        const token = localStorage.getItem("jwtToken"); // トークンをローカルストレージから取得
-        if (!token) {
-            setError("認証トークンが見つかりません。ログインしてください。");
-            return;
-        }
+        const { headers, error: authError } = getAuthHeaders();
+                if (authError) {
+                    setError(authError);
+                    return;
+                }
 
         fetch("http://localhost:8080/api/yearlyDividend", {
                 method: "GET",
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                },
+                headers: headers,
             })
             .then((res) => res.json())
             .then((json) => {
