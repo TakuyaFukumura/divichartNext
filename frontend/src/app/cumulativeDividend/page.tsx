@@ -3,6 +3,7 @@
 import { useEffect, useState, useRef } from "react";
 import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend, Filler } from "chart.js";
 import { Chart } from "react-chartjs-2";
+import { getAuthHeaders } from "@/utils/auth";
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend, Filler);
 
@@ -23,16 +24,14 @@ export default function CumulativeDividendChart() {
     const chartRef = useRef<any>(null);
 
     useEffect(() => {
-        const token = localStorage.getItem("jwtToken"); // トークンをローカルストレージから取得
-        if (!token) {
-            setError("認証トークンが見つかりません。ログインしてください。");
+        const { headers, error: authError } = getAuthHeaders();
+        if (authError) {
+            setError(authError);
             return;
         }
         fetch("http://localhost:8080/api/cumulativeDividend", {
             method: "GET",
-            headers: {
-                Authorization: `Bearer ${token}`,
-            },
+            headers: headers,
         })
             .then((res) => res.json())
             .then((json) => {
