@@ -1,13 +1,26 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 
 export default function Header() {
     const [isOpen, setIsOpen] = useState(false);
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+    useEffect(() => {
+        // トークンが存在するか確認してログイン状態を設定
+        const token = localStorage.getItem("jwtToken");
+        setIsLoggedIn(!!token);
+    }, []);
 
     const toggleMenu = () => {
         setIsOpen(!isOpen);
+    };
+
+    const handleLogout = () => {
+        localStorage.removeItem("jwtToken"); // トークンを削除
+        setIsLoggedIn(false); // ログイン状態を更新
+        window.location.reload(); // ページをリロード
     };
 
     return (
@@ -31,6 +44,21 @@ export default function Header() {
                         <li><Link href="/dividendAchievementRate" className="text-white">配当達成率グラフ</Link></li>
                         <li><Link href="/dividendHistoryList" className="text-white">配当履歴一覧</Link></li>
                     </ul>
+                    {isLoggedIn ? (
+                        <button 
+                            onClick={handleLogout} 
+                            className="text-white bg-red-500 px-4 py-2 rounded ml-4"
+                        >
+                            ログアウト
+                        </button>
+                    ) : (
+                        <Link 
+                            href="/login" 
+                            className="text-white bg-blue-500 px-4 py-2 rounded ml-4"
+                        >
+                            ログイン
+                        </Link>
+                    )}
                 </div>
             </div>
         </nav>

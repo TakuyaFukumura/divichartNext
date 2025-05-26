@@ -19,7 +19,17 @@ export default function MonthlyDividendChart() {
     const [error, setError] = useState<string | null>(null);
 
     useEffect(() => {
-        fetch(`http://localhost:8080/api/monthlyDividend?targetYear=${targetYear}`)
+        const token = localStorage.getItem("jwtToken"); // トークンをローカルストレージから取得
+        if (!token) {
+            setError("認証トークンが見つかりません。ログインしてください。");
+            return;
+        }
+        fetch(`http://localhost:8080/api/monthlyDividend?targetYear=${targetYear}`, {
+              method: "GET",
+              headers: {
+                  Authorization: `Bearer ${token}`,
+              },
+          })
             .then((res) => res.json())
             .then((json: MonthlyDividendDto) => {
                 setChartData(json.chartData);
