@@ -21,6 +21,7 @@ const Login = () => {
       const token = response.data.token;
       localStorage.setItem("jwtToken", token); // トークンをローカルストレージに保存
       setSuccessMessage("ログイン成功！"); // 成功メッセージを設定
+      window.dispatchEvent(new Event("login")); // ログインイベントを発火
     } catch (err) {
       if (err.response) {
         // サーバーからのエラーレスポンスがある場合

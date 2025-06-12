@@ -2,15 +2,24 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import { getAuthHeaders } from "@/utils/auth";
 
 export default function Header() {
     const [isOpen, setIsOpen] = useState(false);
     const [isLoggedIn, setIsLoggedIn] = useState(false);
 
     useEffect(() => {
-        // トークンが存在するか確認してログイン状態を設定
-        const token = localStorage.getItem("jwtToken");
-        setIsLoggedIn(!!token);
+        const { headers } = getAuthHeaders();
+        setIsLoggedIn(!!headers?.Authorization);
+        // "login"イベントを監視してログイン状態を更新
+        const handleLoginEvent = () => {
+            const { headers } = getAuthHeaders();
+            setIsLoggedIn(!!headers?.Authorization);
+        };
+        window.addEventListener("login", handleLoginEvent);
+        return () => {
+            window.removeEventListener("login", handleLoginEvent);
+        };
     }, []);
 
     const toggleMenu = () => {
