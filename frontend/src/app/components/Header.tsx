@@ -1,13 +1,35 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
+import { getAuthHeaders } from "@/utils/auth";
 
 export default function Header() {
     const [isOpen, setIsOpen] = useState(false);
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+    useEffect(() => {
+        const { headers } = getAuthHeaders();
+        setIsLoggedIn(!!headers?.Authorization);
+        // "login"イベントを監視してログイン状態を更新
+        const handleLoginEvent = () => {
+            const { headers } = getAuthHeaders();
+            setIsLoggedIn(!!headers?.Authorization);
+        };
+        window.addEventListener("login", handleLoginEvent);
+        return () => {
+            window.removeEventListener("login", handleLoginEvent);
+        };
+    }, []);
 
     const toggleMenu = () => {
         setIsOpen(!isOpen);
+    };
+
+    const handleLogout = () => {
+        localStorage.removeItem("jwtToken"); // トークンを削除
+        setIsLoggedIn(false); // ログイン状態を更新
+        window.location.reload(); // ページをリロード
     };
 
     return (
@@ -31,6 +53,21 @@ export default function Header() {
                         <li><Link href="/dividendAchievementRate" className="text-white">配当達成率グラフ</Link></li>
                         <li><Link href="/dividendHistoryList" className="text-white">配当履歴一覧</Link></li>
                     </ul>
+                    {isLoggedIn ? (
+                        <button 
+                            onClick={handleLogout} 
+                            className="text-white bg-red-500 px-4 py-2 rounded ml-4"
+                        >
+                            ログアウト
+                        </button>
+                    ) : (
+                        <Link 
+                            href="/login" 
+                            className="text-white bg-blue-500 px-4 py-2 rounded ml-4"
+                        >
+                            ログイン
+                        </Link>
+                    )}
                 </div>
             </div>
         </nav>

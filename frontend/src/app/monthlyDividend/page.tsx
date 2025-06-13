@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend } from "chart.js";
 import { Chart } from "react-chartjs-2";
+import { getAuthHeaders } from "@/utils/auth";
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
@@ -19,7 +20,15 @@ export default function MonthlyDividendChart() {
     const [error, setError] = useState<string | null>(null);
 
     useEffect(() => {
-        fetch(`http://localhost:8080/api/monthlyDividend?targetYear=${targetYear}`)
+        const { headers, error: authError } = getAuthHeaders();
+        if (authError) {
+            setError(authError);
+            return;
+        }
+        fetch(`http://localhost:8080/api/monthlyDividend?targetYear=${targetYear}`, {
+              method: "GET",
+              headers: headers!,
+          })
             .then((res) => res.json())
             .then((json: MonthlyDividendDto) => {
                 setChartData(json.chartData);

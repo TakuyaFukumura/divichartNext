@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { getAuthHeaders } from "@/utils/auth";
 
 interface DividendHistory {
     id: number;
@@ -29,7 +30,15 @@ export default function DividendHistoryList() {
     const [error, setError] = useState<string | null>(null);
 
     useEffect(() => {
-        fetch(`http://localhost:8080/api/dividendHistoryList?page=${page}`)
+        const { headers, error: authError } = getAuthHeaders();
+        if (authError) {
+            setError(authError);
+            return;
+        }
+        fetch(`http://localhost:8080/api/dividendHistoryList?page=${page}`, {
+              method: "GET",
+              headers: headers,
+          })
             .then((res) => res.json())
             .then(setData)
             .catch((err) => {
