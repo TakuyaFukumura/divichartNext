@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { getAuthHeaders } from "@/utils/auth";
 
 interface DividendHistoryEditForm {
     id: number;
@@ -16,6 +17,11 @@ export default function DividendHistoryEditPage() {
     const [successMessage, setSuccessMessage] = useState<string | null>(null); // 成功メッセージ用の状態を追加
 
     useEffect(() => {
+        const { headers, error: authError } = getAuthHeaders();
+        if (authError) {
+            setError(authError);
+            return;
+        }
         const id = new URLSearchParams(window.location.search).get("id");
         if (!id) {
             setError("IDが指定されていません");
@@ -23,7 +29,10 @@ export default function DividendHistoryEditPage() {
             return;
         }
 
-        fetch(`http://localhost:8080/api/dividendHistoryEdit/${id}`)
+        fetch(`http://localhost:8080/api/dividendHistoryEdit/${id}`, {
+               method: "GET",
+               headers: headers!,
+           })
             .then((res) => res.json())
             .then(setForm)
             .catch((err) => {

@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend, Filler, ArcElement } from "chart.js";
 import { Chart } from "react-chartjs-2";
+import { getAuthHeaders } from "@/utils/auth";
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend, Filler, ArcElement);
 
@@ -22,7 +23,15 @@ export default function DividendPortfolio() {
     const [years, setYears] = useState<number[]>([]);
 
     useEffect(() => {
-        fetch(`http://localhost:8080/api/dividendPortfolio?targetYear=${targetYear}`)
+        const { headers, error: authError } = getAuthHeaders();
+        if (authError) {
+            setError(authError);
+            return;
+        }
+        fetch(`http://localhost:8080/api/dividendPortfolio?targetYear=${targetYear}`, {
+                method: "GET",
+                headers: headers,
+            })
             .then((res) => res.json())
             .then((json) => {
                 setYears(json.recentYears);

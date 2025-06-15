@@ -3,6 +3,7 @@
 import { useEffect, useState, useRef } from "react";
 import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend } from "chart.js";
 import { Chart } from "react-chartjs-2";
+import { getAuthHeaders } from "@/utils/auth";
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
@@ -15,11 +16,20 @@ interface DividendAchievementRateDto {
 
 export default function DividendAchievementRate() {
     const [data, setData] = useState<DividendAchievementRateDto | null>(null);
+    const [error, setError] = useState<string | null>(null);
     const [targetDividend, setTargetDividend] = useState<number>(135);
     const chartRef = useRef<any>(null);
 
     useEffect(() => {
-        fetch(`http://localhost:8080/api/dividendAchievementRate?goalDividendAmount=${targetDividend}`)
+        const { headers, error: authError } = getAuthHeaders();
+        if (authError) {
+            setError(authError);
+            return;
+        }
+        fetch(`http://localhost:8080/api/dividendAchievementRate?goalDividendAmount=${targetDividend}`, {
+              method: "GET",
+              headers: headers,
+          })
             .then((res) => res.json())
             .then((json) => setData(json))
             .catch((error) => console.error("データ取得エラー:", error));
@@ -29,6 +39,7 @@ export default function DividendAchievementRate() {
         setTargetDividend(Number(event.target.value));
     };
 
+    if (error) return <p className="text-red-500">{error}</p>;
     if (!data) return <p>Loading...</p>;
 
     const chartData = {
