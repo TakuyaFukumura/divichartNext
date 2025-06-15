@@ -1,6 +1,7 @@
 package click.divichartnext.configuration;
 
 import click.divichartnext.filter.JwtAuthenticationFilter;
+import click.divichartnext.util.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -29,7 +30,8 @@ public class WebSecurityConfig {
     }
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http, HandlerMappingIntrospector introspector) throws Exception {
+    public SecurityFilterChain securityFilterChain(HttpSecurity http, HandlerMappingIntrospector introspector,
+                                                   JwtAuthenticationFilter jwtAuthenticationFilter) throws Exception {
         MvcRequestMatcher.Builder mvcMatcherBuilder = new MvcRequestMatcher.Builder(introspector);
         // 認証・認可設定
         http.authorizeHttpRequests(authorizeHttpRequests ->
@@ -67,7 +69,7 @@ public class WebSecurityConfig {
                         AntPathRequestMatcher.antMatcher("/h2-console/**"),
                         AntPathRequestMatcher.antMatcher("/api/**") // 追加: /api/loginのCSRF対策を無効にする
                 )
-        ).addFilterBefore(new JwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
+        ).addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 
         http.headers(headers ->
                 headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::disable
@@ -80,5 +82,10 @@ public class WebSecurityConfig {
     @Bean
     public UserDetailsManager userDetailsManager() {
         return new JdbcUserDetailsManager(this.dataSource);
+    }
+
+    @Bean
+    public JwtAuthenticationFilter jwtAuthenticationFilter(JwtUtil jwtUtil) {
+        return new JwtAuthenticationFilter(jwtUtil);
     }
 }

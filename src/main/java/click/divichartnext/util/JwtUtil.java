@@ -2,17 +2,24 @@ package click.divichartnext.util;
 
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 
 import java.security.Key;
 import java.util.Date;
 
+import static javax.crypto.Cipher.SECRET_KEY;
+
+@Component
 public class JwtUtil {
-    private static final String SECRET_KEY = "your-256-bit-secret-your-256-bit-secret"; // 256ビットの秘密鍵
     private static final long EXPIRATION_TIME = 86400000; // 1日（ミリ秒）
 
-    private static final Key key = Keys.hmacShaKeyFor(SECRET_KEY.getBytes());
+    private final Key key;
 
-    public static String generateToken(String username) {
+    public JwtUtil(@Value("${jwt.secret}") String secretKey) {
+        this.key = Keys.hmacShaKeyFor(secretKey.getBytes());
+    }
+    public String generateToken(String username) {
         return Jwts.builder()
                 .setSubject(username)
                 .setIssuedAt(new Date())
@@ -21,7 +28,7 @@ public class JwtUtil {
                 .compact();
     }
 
-    public static String validateToken(String token) {
+    public String validateToken(String token) {
         try {
             Claims claims = Jwts.parserBuilder()
                     .setSigningKey(key)
