@@ -1,14 +1,15 @@
 package click.divichartnext.util;
 
-import io.jsonwebtoken.*;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.JwtException;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.security.Key;
 import java.util.Date;
-
-import static javax.crypto.Cipher.SECRET_KEY;
 
 @Component
 public class JwtUtil {
@@ -19,6 +20,7 @@ public class JwtUtil {
     public JwtUtil(@Value("${jwt.secret}") String secretKey) {
         this.key = Keys.hmacShaKeyFor(secretKey.getBytes());
     }
+
     public String generateToken(String username) {
         return Jwts.builder()
                 .setSubject(username)
