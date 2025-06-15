@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { getAuthHeaders } from "@/utils/auth";
 
 interface DividendHistoryEditForm {
     id: number;
@@ -16,9 +17,9 @@ export default function DividendHistoryEditPage() {
     const [successMessage, setSuccessMessage] = useState<string | null>(null); // 成功メッセージ用の状態を追加
 
     useEffect(() => {
-        const token = localStorage.getItem("jwtToken"); // トークンをローカルストレージから取得
-        if (!token) {
-            setError("認証トークンが見つかりません。ログインしてください。");
+        const { headers, error: authError } = getAuthHeaders();
+        if (authError) {
+            setError(authError);
             return;
         }
         const id = new URLSearchParams(window.location.search).get("id");
@@ -30,9 +31,7 @@ export default function DividendHistoryEditPage() {
 
         fetch(`http://localhost:8080/api/dividendHistoryEdit/${id}`, {
                method: "GET",
-               headers: {
-                   Authorization: `Bearer ${token}`,
-               },
+               headers: headers!,
            })
             .then((res) => res.json())
             .then(setForm)
