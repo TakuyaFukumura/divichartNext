@@ -1,7 +1,7 @@
 package click.divichartnext.api;
 
 import click.divichartnext.util.JwtUtil;
-import lombok.Data;
+import click.divichartnext.bean.LoginRequest;
 import lombok.Getter;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -31,12 +31,6 @@ public class AuthController {
         }
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid credentials");
     }
-}
-
-@Data
-class LoginRequest {
-    private String username;
-    private String password;
 }
 
 @Getter
