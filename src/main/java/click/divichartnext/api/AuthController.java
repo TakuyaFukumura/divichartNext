@@ -2,7 +2,7 @@ package click.divichartnext.api;
 
 import click.divichartnext.util.JwtUtil;
 import click.divichartnext.bean.LoginRequest;
-import lombok.Getter;
+import click.divichartnext.bean.AuthResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -30,14 +30,5 @@ public class AuthController {
             return ResponseEntity.ok(new AuthResponse(token));
         }
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid credentials");
-    }
-}
-
-@Getter
-class AuthResponse {
-    private String token;
-
-    public AuthResponse(String token) {
-        this.token = token;
     }
 }
