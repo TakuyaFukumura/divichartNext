@@ -23,7 +23,7 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody LoginRequest loginRequest) {
+    public ResponseEntity<Object> login(@RequestBody LoginRequest loginRequest) {
         // ユーザー認証処理（例: ユーザー名とパスワードの検証）
         if ("admin".equals(loginRequest.getUsername()) && "pass".equals(loginRequest.getPassword())) {
             String token = jwtUtil.generateToken(loginRequest.getUsername());
