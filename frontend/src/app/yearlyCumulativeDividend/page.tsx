@@ -1,9 +1,10 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { Chart as ChartJS, CategoryScale, LinearScale, LineElement, PointElement, Title, Tooltip, Legend } from "chart.js";
 import { Chart } from "react-chartjs-2";
 import { getAuthHeaders } from "@/utils/auth";
+import { exportChartImage } from "@/utils/exportChartImage";
 
 ChartJS.register(CategoryScale, LinearScale, LineElement, PointElement, Title, Tooltip, Legend);
 
@@ -25,6 +26,7 @@ export default function YearlyCumulativeDividendPage() {
     const [error, setError] = useState<string | null>(null);
     const [targetYear, setTargetYear] = useState<number>(new Date().getFullYear());
     const [years, setYears] = useState<number[]>([]);
+    const chartRef = useRef<any>(null);
 
     useEffect(() => {
         const { headers, error: authError } = getAuthHeaders();
@@ -87,6 +89,7 @@ export default function YearlyCumulativeDividendPage() {
             </form>
             <div className="chart-container w-full h-96">
                 <Chart
+                    ref={chartRef}
                     type="line"
                     data={chartData}
                     options={{
@@ -108,6 +111,12 @@ export default function YearlyCumulativeDividendPage() {
                     }}
                 />
             </div>
+            <button
+                onClick={() => exportChartImage(chartRef, `yearlyCumulativeDividendChart_${targetYear}`)}
+                className="mt-4 p-2 bg-blue-500 text-white rounded"
+            >
+                画像出力
+            </button>
         </div>
     );
 }

@@ -4,6 +4,7 @@ import { useEffect, useState, useRef } from "react";
 import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend } from "chart.js";
 import { Chart } from "react-chartjs-2";
 import { getAuthHeaders } from "@/utils/auth";
+import { exportChartImage } from "@/utils/exportChartImage";
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
@@ -105,6 +106,12 @@ export default function DividendAchievementRate() {
                     }}
                 />
             </div>
+            <button
+                onClick={() => exportChartImage(chartRef, "dividendAchievementRateChart")}
+                className="mt-4 p-2 bg-blue-500 text-white rounded"
+            >
+                画像出力
+            </button>
         </div>
     );
 }
