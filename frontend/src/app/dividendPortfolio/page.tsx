@@ -61,10 +61,6 @@ export default function DividendPortfolio() {
         setTargetYear(Number(event.target.value));
     };
 
-    const handleExport = () => {
-        exportChartImage(chartRef, "dividendPortfolioChart");
-    };
-
     if (error) return <p className="text-red-500">{error}</p>;
     if (!chartData) return <p>Loading...</p>;
 
@@ -102,7 +98,12 @@ export default function DividendPortfolio() {
                     }}
                 />
             </div>
-            <button onClick={handleExport} className="mt-4 p-2 bg-blue-500 text-white rounded">画像出力</button>
+            <button
+                onClick={() => exportChartImage(chartRef, "dividendPortfolioChart")}
+                className="mt-4 p-2 bg-blue-500 text-white rounded"
+            >
+                画像出力
+            </button>
         </div>
     );
 }
