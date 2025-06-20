@@ -1,9 +1,10 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend } from "chart.js";
 import { Chart } from "react-chartjs-2";
 import { getAuthHeaders } from "@/utils/auth";
+import { exportChartImage } from "@/utils/exportChartImage";
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
@@ -19,6 +20,7 @@ interface ChartData {
 export default function DividendIncreaseChart() {
     const [chartData, setChartData] = useState<ChartData | null>(null);
     const [error, setError] = useState<string | null>(null);
+    const chartRef = useRef<any>(null);
 
     useEffect(() => {
         const { headers, error: authError } = getAuthHeaders();
@@ -57,6 +59,7 @@ export default function DividendIncreaseChart() {
             <h1 className="text-2xl font-bold mb-4">前年比配当増加額</h1>
             <div className="chart-container w-full h-96">
                 <Chart
+                    ref={chartRef}
                     type="bar"
                     data={chartData}
                     options={{
@@ -78,6 +81,12 @@ export default function DividendIncreaseChart() {
                     }}
                 />
             </div>
+            <button
+                className="mb-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+                onClick={() => exportChartImage(chartRef, "dividend_increase")}
+            >
+                画像出力
+            </button>
         </div>
     );
 }

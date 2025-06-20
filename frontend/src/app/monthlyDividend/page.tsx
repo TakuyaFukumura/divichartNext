@@ -1,9 +1,10 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend } from "chart.js";
 import { Chart } from "react-chartjs-2";
 import { getAuthHeaders } from "@/utils/auth";
+import { exportChartImage } from "@/utils/exportChartImage";
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
@@ -18,6 +19,7 @@ export default function MonthlyDividendChart() {
     const [years, setYears] = useState<number[]>([]);
     const [targetYear, setTargetYear] = useState<number>(new Date().getFullYear());
     const [error, setError] = useState<string | null>(null);
+    const chartRef = useRef<any>(null);
 
     useEffect(() => {
         const { headers, error: authError } = getAuthHeaders();
@@ -65,6 +67,7 @@ export default function MonthlyDividendChart() {
             </form>
             <div className="chart-container w-full h-96">
                 <Chart
+                    ref={chartRef}
                     type="bar"
                     data={{
                         labels: ["1月", "2月", "3月", "4月", "5月", "6月", "7月", "8月", "9月", "10月", "11月", "12月"],
@@ -94,6 +97,12 @@ export default function MonthlyDividendChart() {
                     }}
                 />
             </div>
+            <button
+                onClick={() => exportChartImage(chartRef, "monthlyDividendChart")}
+                className="mt-4 p-2 bg-blue-500 text-white rounded"
+            >
+                画像出力
+            </button>
         </div>
     );
 }

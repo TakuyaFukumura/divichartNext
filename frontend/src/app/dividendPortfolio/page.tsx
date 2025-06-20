@@ -1,9 +1,10 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend, Filler, ArcElement } from "chart.js";
 import { Chart } from "react-chartjs-2";
 import { getAuthHeaders } from "@/utils/auth";
+import { exportChartImage } from "@/utils/exportChartImage";
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend, Filler, ArcElement);
 
@@ -21,6 +22,7 @@ export default function DividendPortfolio() {
     const [error, setError] = useState<string | null>(null);
     const [targetYear, setTargetYear] = useState<number>(new Date().getFullYear());
     const [years, setYears] = useState<number[]>([]);
+    const chartRef = useRef<any>(null);
 
     useEffect(() => {
         const { headers, error: authError } = getAuthHeaders();
@@ -79,6 +81,7 @@ export default function DividendPortfolio() {
             </form>
             <div className="chart-container w-full h-96">
                 <Chart
+                    ref={chartRef}
                     type="pie"
                     data={chartData}
                     options={{
@@ -95,6 +98,12 @@ export default function DividendPortfolio() {
                     }}
                 />
             </div>
+            <button
+                onClick={() => exportChartImage(chartRef, "dividendPortfolioChart")}
+                className="mt-4 p-2 bg-blue-500 text-white rounded"
+            >
+                画像出力
+            </button>
         </div>
     );
 }

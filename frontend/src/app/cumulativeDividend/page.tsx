@@ -4,6 +4,7 @@ import { useEffect, useState, useRef } from "react";
 import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend, Filler } from "chart.js";
 import { Chart } from "react-chartjs-2";
 import { getAuthHeaders } from "@/utils/auth";
+import { exportChartImage } from "@/utils/exportChartImage";
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend, Filler);
 
@@ -54,20 +55,6 @@ export default function CumulativeDividendChart() {
             });
     }, []);
 
-    const handleExport = () => {
-        if (chartRef.current) {
-            const url = chartRef.current.toBase64Image();
-            const link = document.createElement("a");
-            link.href = url;
-
-            const now = new Date();
-            const timestamp = now.toISOString().replace(/[:-]/g, "").replace(/\..+/, "");
-            link.download = `cumulativeDividendChart_${timestamp}.png`;
-
-            link.click();
-        }
-    };
-
     if (error) return <p className="text-red-500">{error}</p>;
     if (!chartData) return <p>Loading...</p>;
 
@@ -98,7 +85,12 @@ export default function CumulativeDividendChart() {
                     }}
                 />
             </div>
-            <button onClick={handleExport} className="mt-4 p-2 bg-blue-500 text-white rounded">画像出力</button>
+            <button
+                onClick={() => exportChartImage(chartRef, "cumulativeDividendChart")}
+                className="mt-4 p-2 bg-blue-500 text-white rounded"
+            >
+                画像出力
+            </button>
         </div>
     );
 }
