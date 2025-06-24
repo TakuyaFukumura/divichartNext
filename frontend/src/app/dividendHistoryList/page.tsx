@@ -85,6 +85,9 @@ export default function DividendHistoryList() {
     if (error) return <p className="text-red-500">{error}</p>;
     if (!data) return <p>Loading...</p>;
 
+    // ページ情報をAPIレスポンスに合わせて取得
+    const pageInfo = data.page;
+
     return (
         <div className="container mx-auto p-4">
             <h1 className="text-2xl font-bold mb-4">配当履歴一覧</h1>
@@ -93,17 +96,17 @@ export default function DividendHistoryList() {
             <div className="flex justify-center mb-4 gap-1">
                 {/* 前へ */}
                 <button
-                    onClick={() => setPage(page - 1)}
+                    onClick={() => setPage(pageInfo.number - 1)}
                     className="px-3 py-2 bg-gray-200 rounded disabled:opacity-50"
-                    disabled={data.first}
+                    disabled={pageInfo.number === 0}
                 >
                     &lt;
                 </button>
                 {/* ページ番号 */}
                 {(() => {
                     const pages = [];
-                    const total = data.totalPages;
-                    const current = page;
+                    const total = pageInfo.totalPages;
+                    const current = pageInfo.number;
                     const range = 2; // 前後2ページ
                     // 1ページ目は常に表示
                     pages.push(
@@ -137,9 +140,9 @@ export default function DividendHistoryList() {
                 })()}
                 {/* 次へ */}
                 <button
-                    onClick={() => setPage(page + 1)}
+                    onClick={() => setPage(pageInfo.number + 1)}
                     className="px-3 py-2 bg-gray-200 rounded disabled:opacity-50"
-                    disabled={data.last}
+                    disabled={pageInfo.number === pageInfo.totalPages - 1}
                 >
                     &gt;
                 </button>
