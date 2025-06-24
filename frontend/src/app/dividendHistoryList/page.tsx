@@ -90,46 +90,57 @@ export default function DividendHistoryList() {
             <h1 className="text-2xl font-bold mb-4">配当履歴一覧</h1>
 
             {/* ページネーション */}
-            <div className="flex justify-center mb-4">
-                {page > 2 && (
-                    <button onClick={() => setPage(0)} className="px-4 py-2 bg-gray-300 rounded">
-                        1
-                    </button>
-                )}
-                {!data.first && (
-                    <button onClick={() => setPage(page - 1)} className="px-4 py-2 bg-gray-300 rounded">
-                        &lt;
-                    </button>
-                )}
-                {Array.from(
-                    { length: 5 },
-                    (_, i) => page - 2 + i
-                ).map((pageNo) =>
-                    pageNo >= 0 && pageNo < data.totalPages ? (
-                        <button
-                            key={pageNo}
-                            onClick={() => setPage(pageNo)}
-                            className={`px-4 py-2 ${
-                                pageNo === page ? "bg-blue-500 text-white" : "bg-gray-300"
-                            } rounded`}
-                        >
-                            {pageNo + 1}
-                        </button>
-                    ) : null
-                )}
-                {!data.last && (
-                    <button onClick={() => setPage(page + 1)} className="px-4 py-2 bg-gray-300 rounded">
-                        &gt;
-                    </button>
-                )}
-                {data.totalPages > page + 3 && (
-                    <button
-                        onClick={() => setPage(data.totalPages - 1)}
-                        className="px-4 py-2 bg-gray-300 rounded"
-                    >
-                        {data.totalPages}
-                    </button>
-                )}
+            <div className="flex justify-center mb-4 gap-1">
+                {/* 前へ */}
+                <button
+                    onClick={() => setPage(page - 1)}
+                    className="px-3 py-2 bg-gray-200 rounded disabled:opacity-50"
+                    disabled={data.first}
+                >
+                    &lt;
+                </button>
+                {/* ページ番号 */}
+                {(() => {
+                    const pages = [];
+                    const total = data.totalPages;
+                    const current = page;
+                    const range = 2; // 前後2ページ
+                    let start = Math.max(0, current - range);
+                    let end = Math.min(total - 1, current + range);
+                    if (start > 0) {
+                        pages.push(
+                            <button key={0} onClick={() => setPage(0)} className={`px-3 py-2 rounded ${current === 0 ? 'bg-blue-500 text-white' : 'bg-gray-200'}`}>1</button>
+                        );
+                        if (start > 1) pages.push(<span key="start-ellipsis">...</span>);
+                    }
+                    for (let i = start; i <= end; i++) {
+                        pages.push(
+                            <button
+                                key={i}
+                                onClick={() => setPage(i)}
+                                className={`px-3 py-2 rounded ${current === i ? 'bg-blue-500 text-white' : 'bg-gray-200'}`}
+                                disabled={current === i}
+                            >
+                                {i + 1}
+                            </button>
+                        );
+                    }
+                    if (end < total - 1) {
+                        if (end < total - 2) pages.push(<span key="end-ellipsis">...</span>);
+                        pages.push(
+                            <button key={total - 1} onClick={() => setPage(total - 1)} className={`px-3 py-2 rounded ${current === total - 1 ? 'bg-blue-500 text-white' : 'bg-gray-200'}`}>{total}</button>
+                        );
+                    }
+                    return pages;
+                })()}
+                {/* 次へ */}
+                <button
+                    onClick={() => setPage(page + 1)}
+                    className="px-3 py-2 bg-gray-200 rounded disabled:opacity-50"
+                    disabled={data.last}
+                >
+                    &gt;
+                </button>
             </div>
 
             {/* 一覧表 */}
