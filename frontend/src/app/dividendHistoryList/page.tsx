@@ -105,15 +105,16 @@ export default function DividendHistoryList() {
                     const total = data.totalPages;
                     const current = page;
                     const range = 2; // 前後2ページ
-                    let start = Math.max(0, current - range);
+                    // 1ページ目は常に表示
+                    pages.push(
+                        <button key={0} onClick={() => setPage(0)} className={`px-3 py-2 rounded ${current === 0 ? 'bg-blue-500 text-white' : 'bg-gray-200'}`} disabled={current === 0}>1</button>
+                    );
+                    let start = Math.max(1, current - range);
                     let end = Math.min(total - 1, current + range);
-                    if (start > 0) {
-                        pages.push(
-                            <button key={0} onClick={() => setPage(0)} className={`px-3 py-2 rounded ${current === 0 ? 'bg-blue-500 text-white' : 'bg-gray-200'}`}>1</button>
-                        );
-                        if (start > 1) pages.push(<span key="start-ellipsis">...</span>);
-                    }
-                    for (let i = start; i <= end; i++) {
+                    // 省略記号
+                    if (start > 1) pages.push(<span key="start-ellipsis">...</span>);
+                    // 2ページ目〜最後-1ページ目
+                    for (let i = start; i < end; i++) {
                         pages.push(
                             <button
                                 key={i}
@@ -125,10 +126,11 @@ export default function DividendHistoryList() {
                             </button>
                         );
                     }
-                    if (end < total - 1) {
-                        if (end < total - 2) pages.push(<span key="end-ellipsis">...</span>);
+                    // 最後のページ
+                    if (total > 1) {
+                        if (end < total - 1) pages.push(<span key="end-ellipsis">...</span>);
                         pages.push(
-                            <button key={total - 1} onClick={() => setPage(total - 1)} className={`px-3 py-2 rounded ${current === total - 1 ? 'bg-blue-500 text-white' : 'bg-gray-200'}`}>{total}</button>
+                            <button key={total - 1} onClick={() => setPage(total - 1)} className={`px-3 py-2 rounded ${current === total - 1 ? 'bg-blue-500 text-white' : 'bg-gray-200'}`} disabled={current === total - 1}>{total}</button>
                         );
                     }
                     return pages;
