@@ -85,51 +85,89 @@ export default function DividendHistoryList() {
     if (error) return <p className="text-red-500">{error}</p>;
     if (!data) return <p>Loading...</p>;
 
+    // ページ情報をAPIレスポンスに合わせて取得
+    const pageInfo = data.page;
+
     return (
         <div className="container mx-auto p-4">
             <h1 className="text-2xl font-bold mb-4">配当履歴一覧</h1>
 
             {/* ページネーション */}
-            <div className="flex justify-center mb-4">
-                {page > 2 && (
-                    <button onClick={() => setPage(0)} className="px-4 py-2 bg-gray-300 rounded">
-                        1
-                    </button>
-                )}
-                {!data.first && (
-                    <button onClick={() => setPage(page - 1)} className="px-4 py-2 bg-gray-300 rounded">
-                        &lt;
-                    </button>
-                )}
-                {Array.from(
-                    { length: 5 },
-                    (_, i) => page - 2 + i
-                ).map((pageNo) =>
-                    pageNo >= 0 && pageNo < data.totalPages ? (
+            <div className="flex justify-center mb-4 gap-1">
+                {/* 前へ */}
+                <button
+                    onClick={() => setPage(pageInfo.number - 1)}
+                    className="px-3 py-2 bg-gray-200 rounded disabled:opacity-50"
+                    disabled={pageInfo.number === 0}
+                >
+                    &lt;
+                </button>
+                {/* ページ番号 */}
+                {(() => {
+                    const pages = [];
+                    const total = pageInfo.totalPages;
+                    const current = pageInfo.number;
+                    const range = 2; // 前後2ページ
+
+                    // 1ページ目は常に表示
+                    pages.push(
                         <button
-                            key={pageNo}
-                            onClick={() => setPage(pageNo)}
-                            className={`px-4 py-2 ${
-                                pageNo === page ? "bg-blue-500 text-white" : "bg-gray-300"
-                            } rounded`}
+                            key={0}
+                            onClick={() => setPage(0)}
+                            className={`px-3 py-2 rounded ${current === 0 ? 'bg-blue-500 text-white' : 'bg-gray-200'}`}
+                            disabled={current === 0}
                         >
-                            {pageNo + 1}
+                            1
                         </button>
-                    ) : null
-                )}
-                {!data.last && (
-                    <button onClick={() => setPage(page + 1)} className="px-4 py-2 bg-gray-300 rounded">
-                        &gt;
-                    </button>
-                )}
-                {data.totalPages > page + 3 && (
-                    <button
-                        onClick={() => setPage(data.totalPages - 1)}
-                        className="px-4 py-2 bg-gray-300 rounded"
-                    >
-                        {data.totalPages}
-                    </button>
-                )}
+                    );
+
+                    // 省略記号（先頭側）
+                    if (current - range > 1) {
+                        pages.push(<span key="start-ellipsis">...</span>);
+                    }
+
+                    // 中央のページ番号
+                    for (let i = Math.max(1, current - range); i <= Math.min(total - 2, current + range); i++) {
+                        pages.push(
+                            <button
+                                key={i}
+                                onClick={() => setPage(i)}
+                                className={`px-3 py-2 rounded ${current === i ? 'bg-blue-500 text-white' : 'bg-gray-200'}`}
+                                disabled={current === i}
+                            >
+                                {i + 1}
+                            </button>
+                        );
+                    }
+
+                    // 省略記号（末尾側）
+                    if (current + range < total - 2) {
+                        pages.push(<span key="end-ellipsis">...</span>);
+                    }
+
+                    // 最後のページ
+                    if (total > 1) {
+                        pages.push(
+                            <button
+                                key={total - 1}
+                                onClick={() => setPage(total - 1)}
+                                className={`px-3 py-2 rounded ${current === total - 1 ? 'bg-blue-500 text-white' : 'bg-gray-200'}`}
+                                disabled={current === total - 1}
+                            >
+                                {total}
+                            </button>
+                        );
+                    }
+                    return pages;
+                })()}
+                {/* 次へ */}
+                <button
+                    onClick={() => setPage(pageInfo.number + 1)}
+                    className="px-3 py-2 bg-gray-200 rounded disabled:opacity-50"
+                    disabled={pageInfo.number === pageInfo.totalPages - 1}
+                >
+                    &gt;
+                </button>
             </div>
 
             {/* 一覧表 */}
@@ -163,10 +201,11 @@ export default function DividendHistoryList() {
 
             {/* CSV一括登録 */}
             <form onSubmit={handleCsvUpload} className="mt-4">
-                <label className="block mb-2">
+                <label htmlFor="csv-upload" className="block mb-2">
                     楽天証券の配当金・分配金一覧CSVファイルを選択してください。
                 </label>
                 <input
+                    id="csv-upload"
                     type="file"
                     accept=".csv"
                     onChange={(e) => setCsvFile(e.target.files?.[0] || null)}
@@ -180,8 +219,9 @@ export default function DividendHistoryList() {
             {/* 個別登録 */}
             <form onSubmit={handleFormSubmit} className="mt-4">
                 <div className="mb-2">
-                    <label className="block">ティッカーシンボル</label>
+                    <label htmlFor="tickerSymbol" className="block">ティッカーシンボル</label>
                     <input
+                        id="tickerSymbol"
                         type="text"
                         value={form.tickerSymbol}
                         onChange={(e) => setForm({ ...form, tickerSymbol: e.target.value })}
@@ -189,8 +229,9 @@ export default function DividendHistoryList() {
                     />
                 </div>
                 <div className="mb-2">
-                    <label className="block">配当金額</label>
+                    <label htmlFor="amountReceived" className="block">配当金額</label>
                     <input
+                        id="amountReceived"
                         type="number"
                         step="0.01"
                         value={form.amountReceived}
@@ -199,8 +240,9 @@ export default function DividendHistoryList() {
                     />
                 </div>
                 <div className="mb-2">
-                    <label className="block">受取年月</label>
+                    <label htmlFor="receiptDate" className="block">受取年月</label>
                     <input
+                        id="receiptDate"
                         type="date"
                         value={form.receiptDate}
                         onChange={(e) => setForm({ ...form, receiptDate: e.target.value })}
