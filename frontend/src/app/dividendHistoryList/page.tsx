@@ -112,8 +112,8 @@ export default function DividendHistoryList() {
                     pages.push(
                         <button key={0} onClick={() => setPage(0)} className={`px-3 py-2 rounded ${current === 0 ? 'bg-blue-500 text-white' : 'bg-gray-200'}`} disabled={current === 0}>1</button>
                     );
-                    let start = Math.max(1, current - range);
-                    let end = Math.min(total - 1, current + range);
+                    let start = Math.max(1, current - range) - 1;
+                    let end = Math.min(total - 1, current + range) + 2;
                     // 省略記号
                     if (start > 1) pages.push(<span key="start-ellipsis">...</span>);
                     // 2ページ目〜最後-1ページ目
