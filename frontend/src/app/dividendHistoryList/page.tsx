@@ -179,10 +179,11 @@ export default function DividendHistoryList() {
 
             {/* CSV一括登録 */}
             <form onSubmit={handleCsvUpload} className="mt-4">
-                <label className="block mb-2">
+                <label htmlFor="csv-upload" className="block mb-2">
                     楽天証券の配当金・分配金一覧CSVファイルを選択してください。
                 </label>
                 <input
+                    id="csv-upload"
                     type="file"
                     accept=".csv"
                     onChange={(e) => setCsvFile(e.target.files?.[0] || null)}
@@ -196,8 +197,9 @@ export default function DividendHistoryList() {
             {/* 個別登録 */}
             <form onSubmit={handleFormSubmit} className="mt-4">
                 <div className="mb-2">
-                    <label className="block">ティッカーシンボル</label>
+                    <label htmlFor="tickerSymbol" className="block">ティッカーシンボル</label>
                     <input
+                        id="tickerSymbol"
                         type="text"
                         value={form.tickerSymbol}
                         onChange={(e) => setForm({ ...form, tickerSymbol: e.target.value })}
@@ -205,8 +207,9 @@ export default function DividendHistoryList() {
                     />
                 </div>
                 <div className="mb-2">
-                    <label className="block">配当金額</label>
+                    <label htmlFor="amountReceived" className="block">配当金額</label>
                     <input
+                        id="amountReceived"
                         type="number"
                         step="0.01"
                         value={form.amountReceived}
@@ -215,8 +218,9 @@ export default function DividendHistoryList() {
                     />
                 </div>
                 <div className="mb-2">
-                    <label className="block">受取年月</label>
+                    <label htmlFor="receiptDate" className="block">受取年月</label>
                     <input
+                        id="receiptDate"
                         type="date"
                         value={form.receiptDate}
                         onChange={(e) => setForm({ ...form, receiptDate: e.target.value })}
