@@ -108,16 +108,26 @@ export default function DividendHistoryList() {
                     const total = pageInfo.totalPages;
                     const current = pageInfo.number;
                     const range = 2; // 前後2ページ
+
                     // 1ページ目は常に表示
                     pages.push(
-                        <button key={0} onClick={() => setPage(0)} className={`px-3 py-2 rounded ${current === 0 ? 'bg-blue-500 text-white' : 'bg-gray-200'}`} disabled={current === 0}>1</button>
+                        <button
+                            key={0}
+                            onClick={() => setPage(0)}
+                            className={`px-3 py-2 rounded ${current === 0 ? 'bg-blue-500 text-white' : 'bg-gray-200'}`}
+                            disabled={current === 0}
+                        >
+                            1
+                        </button>
                     );
-                    let start = Math.max(1, current - range) - 1;
-                    let end = Math.min(total - 1, current + range) + 2;
-                    // 省略記号
-                    if (start > 1) pages.push(<span key="start-ellipsis">...</span>);
-                    // 2ページ目〜最後-1ページ目
-                    for (let i = start; i < end; i++) {
+
+                    // 省略記号（先頭側）
+                    if (current - range > 1) {
+                        pages.push(<span key="start-ellipsis">...</span>);
+                    }
+
+                    // 中央のページ番号
+                    for (let i = Math.max(1, current - range); i <= Math.min(total - 2, current + range); i++) {
                         pages.push(
                             <button
                                 key={i}
@@ -129,11 +139,23 @@ export default function DividendHistoryList() {
                             </button>
                         );
                     }
+
+                    // 省略記号（末尾側）
+                    if (current + range < total - 2) {
+                        pages.push(<span key="end-ellipsis">...</span>);
+                    }
+
                     // 最後のページ
                     if (total > 1) {
-                        if (end < total - 1) pages.push(<span key="end-ellipsis">...</span>);
                         pages.push(
-                            <button key={total - 1} onClick={() => setPage(total - 1)} className={`px-3 py-2 rounded ${current === total - 1 ? 'bg-blue-500 text-white' : 'bg-gray-200'}`} disabled={current === total - 1}>{total}</button>
+                            <button
+                                key={total - 1}
+                                onClick={() => setPage(total - 1)}
+                                className={`px-3 py-2 rounded ${current === total - 1 ? 'bg-blue-500 text-white' : 'bg-gray-200'}`}
+                                disabled={current === total - 1}
+                            >
+                                {total}
+                            </button>
                         );
                     }
                     return pages;
