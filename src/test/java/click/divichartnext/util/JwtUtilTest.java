@@ -1,5 +1,6 @@
 package click.divichartnext.util;
 
+import io.jsonwebtoken.JwtException;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -42,7 +43,7 @@ class JwtUtilTest {
         String invalidToken = "invalid.jwt.token";
 
         // Then
-        assertThrows(RuntimeException.class, () -> {
+        assertThrows(JwtException.class, () -> {
             jwtUtil.validateToken(invalidToken);
         });
     }
