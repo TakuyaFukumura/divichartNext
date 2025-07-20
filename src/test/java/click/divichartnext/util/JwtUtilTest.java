@@ -1,21 +1,21 @@
 package click.divichartnext.util;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.TestPropertySource;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+@SpringBootTest(classes = JwtUtil.class)
+@TestPropertySource(locations = "classpath:application-test.properties")
 class JwtUtilTest {
 
+    @Autowired
     private JwtUtil jwtUtil;
-
-    @BeforeEach
-    void setUp() {
-        jwtUtil = new JwtUtil("mySecretKeyThatIsAtLeast32BytesLong!!");
-    }
 
     @Test
     void testGenerateAndValidateToken() {
